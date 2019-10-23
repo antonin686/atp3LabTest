@@ -19,10 +19,15 @@ router.post('/login', function(req, res){
             res.send('invalid username/password');
 		}else{
             console.log(status);
-            req.session.un = req.body.username;
-            req.session.u_type = status.u_type;
-            req.session.u_id = status.u_id;
-			res.redirect('/admin/home');	
+			req.session.un = req.body.username;
+			req.session.u_type = status.u_type;
+			if(status.u_type == 1)
+			{
+				res.redirect('/admin/home');
+			}else if(status.u_type == 2){
+				res.redirect('/employee/home');
+			}
+				
 		}
 	});
 

@@ -38,7 +38,7 @@ module.exports = {
 	},
 	insert: function(user, callback){
 
-		var sql ="insert into login values('', '"+ user.username+"', '"+user.password+"')";
+		var sql = `insert into login values('','${user.username}', '${user.password}', '2')`;
 		db.execute(sql, function(status){
 			callback(status);
 		});

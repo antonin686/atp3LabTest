@@ -4,7 +4,7 @@ module.exports = {
 
 	getById: function(id, callback){
 
-			var sql = "select * from user where id="+id;
+			var sql = "select * from employee where id="+id;
 			db.getResults(sql, function(result){
 				if(result.length > 0 ){
 					callback(result[0]);
@@ -28,13 +28,13 @@ module.exports = {
 	},
 	insert: function(user, callback){
 
-		var sql = `insert into employee values('${user.name}', '${user.contact}')`;
+		var sql = `insert into employee values('', '${user.name}', '${user.contact}' ,'${user.username}')`;
 		db.execute(sql, function(status){
 			callback(status);
 		});
 	},
 	update: function(user, callback){
-		var sql ="update employee set username='"+ user.username+"', password='"+user.password+"' where id="+user.id;
+		var sql = `update employee set name = '${user.name}', contact = '${user.contact}' where id= ${user.id}`;
 		
 		console.log(sql);
 

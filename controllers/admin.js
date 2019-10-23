@@ -1,5 +1,6 @@
 var express = require('express');
 var empModel = require('../models/emp_model');
+var loginModel = require('../models/login_model');
 
 var router = express.Router();
 
@@ -22,9 +23,57 @@ router.get('/employee/create', function(req, res){
 	res.render("admin/emp_create", { user : req.session.un });
 });
 
-router.post('/employee/create', function(req, res){
+router.get('/employee/edit/:id', function(req, res){
 	
-	var u_id = " ";
+	var user = req.params.id;	
+	empModel.getById(user, function(result){
+		if(!result){
+            res.send('insert failed');
+		}else{
+			res.render("admin/emp_edit", { user : req.session.un, userInfo: result});
+		}
+	});
+
+	
+});
+
+router.get('/employee/delete/:id', function(req, res){
+	
+	var user = req.params.id;	
+	empModel.delete(user, function(result){
+		if(!result){
+            res.send('insert failed');
+		}else{
+			res.redirect("/admin/employee");
+		}
+	});
+
+	
+});
+
+
+router.post('/employee/edit/:id', function(req, res){
+	
+	var user = {
+		id : req.params.id,
+		name : req.body.name,
+		contact: req.body.contact
+	}	
+	empModel.update(user, function(result){
+		if(!result){
+            res.send('insert failed');
+		}else{
+			res.redirect("/admin/employee");
+		}
+	});
+
+	
+});
+
+
+
+router.post('/employee/create', function(req, res){
+
 
 	var user = {
 		name : req.body.name,
@@ -36,14 +85,20 @@ router.post('/employee/create', function(req, res){
 	empModel.insert(user, function(status){
 		if(!status){
             res.send('insert failed');
+		}else{
+			loginModel.insert(user, function(status){
+				if(!status){
+					res.send('insert failed');
+				}else{
+					res.redirect('/admin/employee');
+				}
+			});
 		}
 	});
 
-	empModel.getById(-, function(status){
-		if(!status){
-            res.send('insert failed');
-		}
-	});
+	
+
+	
 
 });
 

@@ -33,5 +33,5 @@ app.get('/', function(request, response){
 
 //SERVER STARTUP
 app.listen(8000, function(){
-	console.log('server started at 3000...');
+	console.log('server started at 8000...');
 });
